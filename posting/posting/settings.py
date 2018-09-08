@@ -20,12 +20,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!mpb2ca=)%!tkh&mn4$#p+#rg1$=p+78nhn_kdbydm&*98!l*o'
+SECRET_KEY = os.environ.get('SECRET_KEY', '0')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', '0')
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = [# TODO: add your Google Cloud Project-ID here
+    'appsposting.appspot.com', # must add the app engine (project-id) domain here
+'127.0.0.1',] # for local testing ]
 
 
 # Application definition
@@ -77,11 +79,11 @@ WSGI_APPLICATION = 'posting.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postingdb',
-        'USER': 'postgres',
-        'HOST': 'localhost',
-        'PASSWORD': 'pollito',
-        'PORT': 5432,
+        'NAME': os.environ.get('DB_NAME', '0'),
+        'USER': os.environ.get('DB_PORT', '0'),
+        'HOST': os.environ.get('DB_HOST', '0'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', '0'),
+        'PORT': os.environ.get('DB_PORT', '0'), # os.environ['DB_PORT'],
     }
 }
 
@@ -122,5 +124,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_URL = os.environ.get('STATIC_URL', '0')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
